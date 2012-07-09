@@ -1,0 +1,2 @@
+Account{accountId = 1, username = "admin", password = "root"}
+Account{accountId = 2, username = "shukhrat", password = "password"}

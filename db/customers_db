@@ -1,6 +1,0 @@
-
-customer1 = Customer {
-              customerId = 215563,
-              customerAddress = ["1042992 Disk Drive", "Mulpitas, CA 95134", "USA"],
-              customerName = "Jane Q. Citizen"
-              } 

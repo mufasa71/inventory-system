@@ -16,3 +16,5 @@ loadFileLoop inh = do
                   else do inpStr <- hGetLine inh
                           putStrLn inpStr
                           loadFileLoop inh
+
+s = [x | x <- [0..10]]

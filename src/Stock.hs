@@ -17,7 +17,11 @@ stock_db = "db/stock_db"
 data Stock = Stock { stockCode :: StockCode,
                    unitPrice :: UnitPrice,
                    discountPrice :: DiscountPrice,
-                   description :: Description } deriving (Show, Read)
+                   description :: Description } deriving (Show, Read, Ord, Eq)
+
+unitPriceSort :: Stock -> Stock -> Ordering
+unitPriceSort a b | unitPrice a >= unitPrice b = GT
+                  | otherwise = LT
 
 loadStock :: FilePath -> IO ([Stock])
 loadStock path = do
@@ -76,7 +80,10 @@ removeUnit = do
       hClose tempHandle
       removeFile "db/stock_db"
       renameFile tempName "db/stock_db")
-        
+
+sortByUnitPrice :: [Stock] -> [Stock]
+sortByUnitPrice stockList = sortBy unitPriceSort stockList
+
 test = printStock $ loadStock stock_db
 test2 = do
   stock <- addUnit

@@ -1,1 +1,2 @@
 Stock{stockCode = 1, unitPrice = 99, discountPrice = 90, description = "Calculator"}
+Stock{stockCode = 2, unitPrice = 62, discountPrice = 55, description = "DVD RW"}

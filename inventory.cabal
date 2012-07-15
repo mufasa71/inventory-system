@@ -17,6 +17,6 @@ cabal-version:       >=1.8
 executable Inventory
   -- main-is:             
   -- other-modules:       
-  build-depends:       base
+  build-depends:       base, directory
   Main-Is:             Main.hs
   Hs-Source-Dirs:      src

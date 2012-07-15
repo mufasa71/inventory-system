@@ -1,20 +1,20 @@
 module Main where
 import System.IO
-import Inventory
+import Control.Monad
 import Account
+import Stock
 
 main :: IO ()
 main = do
-       putStrLn "----------Welcome to Inventory System----------"
-       credentials <- login
-       accounts <- loadAccounts db_path
-       if authenticate credentials accounts
-       then do
-          putStrLn "You was successfully logged in"
-          menu
-          processMenu
-       else putStrLn "Username or password does not match"
-       putStrLn "Program terminated. Bye!"
+  putStrLn "----------Welcome to Inventory System----------"
+  credentials <- login
+  accounts <- loadAccounts db_path
+  if authenticate credentials accounts
+    then do
+      putStrLn "You was successfully logged in"
+      processMenu
+    else do putStrLn "Username or password does not match"
+  putStrLn "Program terminated. Bye!"
 
 login :: IO (UserName, Password)
 login = do
@@ -27,12 +27,18 @@ login = do
 menu = do
   putStrLn "Make your choise: "
   putStrLn "1. Read stock file"
-  putStrLn "2. Read orders file"
-  putStrLn "3. Process orders"
+  putStrLn "2. Add unit to stock"
+  putStrLn "3. Remove unit from stock"
+  putStrLn "4. Sort stock"
+  putStrLn "4. Read orders file"
+  putStrLn "5. Process orders"
 
 processMenu = do
+  menu
   line' <- getLine
   let choise = read line' :: Int
-  case choise of 1 -> putStrLn "One"
-                 2 -> putStrLn "Two"
-                 3 -> putStrLn "Process orders"
+  case choise of 1 -> printStock $ loadStock stock_db 
+                 2 -> addUnitAndSave
+                 3 -> removeUnit
+                 4 -> stockSorting
+  processMenu

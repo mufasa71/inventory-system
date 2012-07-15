@@ -1,5 +1,6 @@
 -- Stock representation
 module Stock where
+
 import System.IO
 import System.Directory
 import Data.List
@@ -81,11 +82,22 @@ removeUnit = do
       removeFile "db/stock_db"
       renameFile tempName "db/stock_db")
 
-sortByUnitPrice :: [Stock] -> [Stock]
-sortByUnitPrice stockList = sortBy unitPriceSort stockList
+sortByUnitPrice :: IO([Stock]) -> IO([Stock])
+sortByUnitPrice stockList = do
+  oldStockList <- stockList
+  let newStockList = sortBy unitPriceSort oldStockList
+  return (newStockList)
 
-test = printStock $ loadStock stock_db
-test2 = do
+stockSorting = do
+  putStrLn "Sort by?"
+  putStrLn "  1. Price"
+  putStrLn "  2. Discount price"
+  putStrLn "  3. Description" 
+  numberString <- getLine
+  let choise = read numberString
+  case choise of 1 -> printStock $ sortByUnitPrice $ loadStock stock_db
+
+addUnitAndSave= do
   stock <- addUnit
   _ <- saveStock stock
   putStrLn $ show stock

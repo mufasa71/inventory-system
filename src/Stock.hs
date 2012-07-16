@@ -119,6 +119,7 @@ stockSorting = do
   case choise of 1 -> printStock $ sortByUnitPrice $ loadStock stock_db
                  2 -> printStock $ sortByDiscountPrice $ loadStock stock_db
                  3 -> printStock $ sortByDescription $ loadStock stock_db
+                 otherwise -> putStrLn "not exists"
 
 addUnitAndSave= do
   stock <- addUnit
@@ -141,14 +142,19 @@ findByCode n = do
   let stock = find (\x -> stockCode x == n) stockList
   return (stock)
 
+findByDescription :: Description -> IO (Maybe Stock)
+findByDescription d = do
+  stockList <- loadStock stock_db
+  let stock = find (\x -> description x == d) stockList
+  return (stock)
 
+doconcat :: IO ()
 doconcat = do
   putStrLn "Specify file to append:"
   file <- getLine
   source <- loadStock file
   destination <- loadStock stock_db
-  let concatList = stockConcat source destination
-  putStrLn $ show concatList
+  printStock $ return (stockConcat source destination)
 
 doreplicate = do
   putStrLn "Enter stock code to replicate:"
@@ -159,4 +165,29 @@ doreplicate = do
   let number = read numberString
   stock <- findByCode code
   let stockToReplicate = fromJust stock
-  putStrLn (show $ stockReplicate number stockToReplicate)
+  printStock $ return (stockReplicate number stockToReplicate)
+
+findUnitBy = do
+  putStrLn "Find unit by:"
+  putStrLn "   1. Code"
+  putStrLn "   2. Description"
+  choiseString <- getLine
+  let choise = read choiseString
+  case choise of 1 -> promtFindByCode
+                 2 -> promtFindBytDescription
+                 otherwise -> putStrLn "not exists"
+
+promtFindByCode = do
+  putStrLn "Enter stock code"
+  codeString <- getLine
+  let code = read codeString
+  stock <- findByCode code
+  let stockFound = fromJust stock
+  printStock $ return [stockFound]
+
+promtFindBytDescription = do
+  putStrLn "Enter description"
+  description <- getLine
+  stock <- findByDescription description
+  let stockFound = fromJust stock
+  printStock $ return [stockFound]

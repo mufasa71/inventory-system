@@ -1,5 +1,6 @@
 module Main where
 import System.IO
+import System.Exit
 import Control.Monad
 import Account
 import Stock
@@ -14,7 +15,6 @@ main = do
       putStrLn "You was successfully logged in"
       processMenu
     else do putStrLn "Username or password does not match"
-  putStrLn "Program terminated. Bye!"
 
 login :: IO (UserName, Password)
 login = do
@@ -30,8 +30,12 @@ menu = do
   putStrLn "2. Add unit to stock"
   putStrLn "3. Remove unit from stock"
   putStrLn "4. Sort stock"
-  putStrLn "4. Read orders file"
-  putStrLn "5. Process orders"
+  putStrLn "5. Merge file to stock"
+  putStrLn "6. Duplicate unit"
+  putStrLn "7. Find unit"
+  putStrLn "8. Read orders file"
+  putStrLn "9. Process orders"
+  putStrLn "0. Exit"
 
 processMenu = do
   menu
@@ -41,4 +45,11 @@ processMenu = do
                  2 -> addUnitAndSave
                  3 -> removeUnit
                  4 -> stockSorting
+                 5 -> doconcat
+                 6 -> doreplicate
+                 7 -> findUnitBy
+                 0 -> exitSuccess
+                 otherwise -> putStrLn "not exists"
   processMenu
+
+exit = putStrLn "Program terminated. Bye!"

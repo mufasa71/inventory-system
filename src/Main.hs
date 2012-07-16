@@ -51,5 +51,3 @@ processMenu = do
                  0 -> exitSuccess
                  otherwise -> putStrLn "not exists"
   processMenu
-
-exit = putStrLn "Program terminated. Bye!"

@@ -1,3 +1,5 @@
+module Customer where
+
 -- Customer -- 
 type CustomerId = Int
 data Customer = Customer {
@@ -5,3 +7,4 @@ data Customer = Customer {
       customerName :: String,
       customerAddress :: String
       } deriving (Show, Read)
+

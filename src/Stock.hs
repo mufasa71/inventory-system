@@ -4,6 +4,7 @@ module Stock where
 import System.IO
 import System.Directory
 import Data.List
+import Data.Maybe
 import Control.Monad
 import Control.Exception
 
@@ -23,6 +24,14 @@ data Stock = Stock { stockCode :: StockCode,
 unitPriceSort :: Stock -> Stock -> Ordering
 unitPriceSort a b | unitPrice a >= unitPrice b = GT
                   | otherwise = LT
+
+discountPriceSort :: Stock -> Stock -> Ordering
+discountPriceSort a b | discountPrice a >= discountPrice b = GT
+                      | otherwise = LT
+
+descriptionSort :: Stock -> Stock -> Ordering
+descriptionSort a b | description a >= description b = GT
+                    | otherwise = LT
 
 loadStock :: FilePath -> IO ([Stock])
 loadStock path = do
@@ -88,6 +97,18 @@ sortByUnitPrice stockList = do
   let newStockList = sortBy unitPriceSort oldStockList
   return (newStockList)
 
+sortByDiscountPrice :: IO([Stock]) -> IO([Stock])
+sortByDiscountPrice stockList = do
+  oldStockList <- stockList
+  let newStockList = sortBy discountPriceSort oldStockList
+  return (newStockList)
+
+sortByDescription :: IO([Stock]) -> IO([Stock])
+sortByDescription stockList = do
+  oldStockList <- stockList
+  let newStockList = sortBy descriptionSort oldStockList
+  return (newStockList)
+
 stockSorting = do
   putStrLn "Sort by?"
   putStrLn "  1. Price"
@@ -96,8 +117,46 @@ stockSorting = do
   numberString <- getLine
   let choise = read numberString
   case choise of 1 -> printStock $ sortByUnitPrice $ loadStock stock_db
+                 2 -> printStock $ sortByDiscountPrice $ loadStock stock_db
+                 3 -> printStock $ sortByDescription $ loadStock stock_db
 
 addUnitAndSave= do
   stock <- addUnit
   _ <- saveStock stock
   putStrLn $ show stock
+
+stockConcat :: [Stock] -> [Stock] -> [Stock]
+stockConcat [] [] = []
+stockConcat [] (y:ys) = y:(stockConcat [] ys)
+stockConcat (x:xs) [] = x:(stockConcat xs [])
+stockConcat xs ys = (stockConcat ys []) ++ (stockConcat [] xs)
+
+stockReplicate :: Int -> Stock -> [Stock]
+stockReplicate n x | n <= 0 = []
+                   | otherwise = x:stockReplicate (n - 1) x
+
+findByCode :: StockCode -> IO (Maybe Stock)
+findByCode n = do
+  stockList <- loadStock stock_db
+  let stock = find (\x -> stockCode x == n) stockList
+  return (stock)
+
+
+doconcat = do
+  putStrLn "Specify file to append:"
+  file <- getLine
+  source <- loadStock file
+  destination <- loadStock stock_db
+  let concatList = stockConcat source destination
+  putStrLn $ show concatList
+
+doreplicate = do
+  putStrLn "Enter stock code to replicate:"
+  codeString <- getLine
+  let code = read codeString
+  putStrLn "How much to replicate?"
+  numberString <- getLine
+  let number = read numberString
+  stock <- findByCode code
+  let stockToReplicate = fromJust stock
+  putStrLn (show $ stockReplicate number stockToReplicate)

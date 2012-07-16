@@ -1,9 +1,0 @@
-Stock{stockCode = 1, unitPrice = 99.99, discountPrice = 90.99, description = "Calculator"}
-Stock{stockCode = 2, unitPrice = 62.32, discountPrice = 42.99, description = "DVD RW"}
-Stock{stockCode = 3, unitPrice = 11.21, discountPrice = 10.31, description = "Pencil"}
-Stock{stockCode = 4, unitPrice = 22.90, discountPrice = 21.25, description = "Marker"}
-Stock{stockCode = 5, unitPrice = 14.32, discountPrice = 12.15, description = "Rubber"}
-Stock{stockCode = 6, unitPrice = 56.5, discountPrice = 45.53, description = "Text book"}
-Stock{stockCode = 7, unitPrice = 42.2, discountPrice = 40.32, description = "C++ book"}
-Stock{stockCode = 8, unitPrice = 83.99, discountPrice = 60.21, description = "Java Beginners"}
-Stock{stockCode = 9, unitPrice = 104.99, discountPrice = 99.99, description = "Essential math"}

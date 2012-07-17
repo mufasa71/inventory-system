@@ -4,6 +4,7 @@ import System.Exit
 import Control.Monad
 import Account
 import Stock
+import Order
 
 main :: IO ()
 main = do
@@ -34,7 +35,7 @@ menu = do
   putStrLn "6. Duplicate unit"
   putStrLn "7. Find unit"
   putStrLn "8. Read orders file"
-  putStrLn "9. Process orders"
+  putStrLn "9. Print receipt"
   putStrLn "0. Exit"
 
 processMenu = do
@@ -48,6 +49,8 @@ processMenu = do
                  5 -> doconcat
                  6 -> doreplicate
                  7 -> findUnitBy
+                 8 -> printOrdersHelper
+                 9 -> printReceipt
                  0 -> exitSuccess
                  otherwise -> putStrLn "not exists"
   processMenu

@@ -1,0 +1,3 @@
+Order {ordStockCode=1, customer=1, qtyOrdered=3, number=0}
+Order {ordStockCode=4, customer=2, qtyOrdered=11, number=0}
+Order {ordStockCode=7, customer=2, qtyOrdered=9, number=0}
